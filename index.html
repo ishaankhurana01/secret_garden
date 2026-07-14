@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Secret Garden 🌸</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Quicksand:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Custom cursor (a soft glowing dot that trails the mouse) -->
+<div id="cursor-glow" aria-hidden="true"></div>
+
+<!-- Ambient layer: shared across scenes, holds petals / fireflies / sparkles spawned by JS -->
+<div id="ambient-layer" aria-hidden="true"></div>
+
+<!-- Progress dots so travellers can see how far into the story they are -->
+<nav class="story-progress" aria-label="Story progress">
+  <span class="dot active" data-scene="0"></span>
+  <span class="dot" data-scene="1"></span>
+  <span class="dot" data-scene="2"></span>
+  <span class="dot" data-scene="3"></span>
+  <span class="dot" data-scene="4"></span>
+  <span class="dot" data-scene="5"></span>
+</nav>
+
+<main id="scenes">
+
+  <!-- ============ SCENE 1 — WELCOME ============ -->
+  <section class="scene" id="scene-0" data-scene="0" aria-label="Welcome to the Secret Garden">
+    <div class="sky">
+      <div class="sun"></div>
+      <div class="cloud cloud-a"></div>
+      <div class="cloud cloud-b"></div>
+      <div class="cloud cloud-c"></div>
+    </div>
+    <div class="tree-line" aria-hidden="true">
+      <svg class="tree tree-left" viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 260 L100 140" stroke="#7a5c46" stroke-width="14" stroke-linecap="round"/>
+        <circle cx="70" cy="110" r="55" fill="#9fc9a0"/>
+        <circle cx="120" cy="90" r="65" fill="#8fbf8f"/>
+        <circle cx="115" cy="150" r="50" fill="#a7d1a1"/>
+      </svg>
+      <svg class="tree tree-right" viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 260 L100 140" stroke="#7a5c46" stroke-width="14" stroke-linecap="round"/>
+        <circle cx="130" cy="110" r="55" fill="#9fc9a0"/>
+        <circle cx="80" cy="90" r="65" fill="#8fbf8f"/>
+        <circle cx="85" cy="150" r="50" fill="#a7d1a1"/>
+      </svg>
+    </div>
+
+    <div class="butterflies-decor" aria-hidden="true">
+      <span class="deco-butterfly bfly1">🦋</span>
+      <span class="deco-butterfly bfly2">🦋</span>
+      <span class="deco-butterfly bfly3">🦋</span>
+    </div>
+
+    <div class="gate-wrap">
+      <div class="gate" id="gate">
+        <div class="gate-door left"></div>
+        <div class="gate-door right"></div>
+        <div class="gate-glow"></div>
+      </div>
+    </div>
+
+    <div class="scene-copy welcome-copy">
+      <h1 class="title">Welcome to the Secret Garden <span aria-hidden="true">🌸</span></h1>
+      <p class="subtitle">A small adventure awaits you&hellip;</p>
+      <button class="btn btn-glow" id="enter-btn">Enter the Garden</button>
+    </div>
+  </section>
+
+  <!-- ============ SCENE 2 — BUTTERFLY PUZZLE ============ -->
+  <section class="scene" id="scene-1" data-scene="1" aria-label="Find the hidden butterfly">
+    <div class="garden-bg garden-bg-1"></div>
+    <div class="scene-copy top-copy">
+      <h2 class="title small">Find the hidden butterfly</h2>
+      <p class="subtitle">It's fluttering somewhere close by&hellip; hover gently, then click.</p>
+    </div>
+    <div class="puzzle-field" id="butterfly-field">
+      <!-- decorative flowers scattered around -->
+      <span class="field-flower" style="--x:8%; --y:70%;">🌷</span>
+      <span class="field-flower" style="--x:80%; --y:20%;">🌼</span>
+      <span class="field-flower" style="--x:20%; --y:20%;">🌸</span>
+      <span class="field-flower" style="--x:70%; --y:75%;">🌻</span>
+      <span class="field-flower" style="--x:45%; --y:85%;">🌺</span>
+      <button class="hidden-butterfly" id="hidden-butterfly" aria-label="A hidden butterfly, click to reveal it">🦋</button>
+      <div class="bloom-burst" id="bloom-burst">🌸</div>
+    </div>
+  </section>
+
+  <!-- ============ SCENE 3 — WATER THE FLOWER ============ -->
+  <section class="scene" id="scene-2" data-scene="2" aria-label="Water the seed until it blooms">
+    <div class="garden-bg garden-bg-2"></div>
+    <div class="sun-rays" aria-hidden="true"></div>
+    <div class="scene-copy top-copy">
+      <h2 class="title small">Water the flower</h2>
+      <p class="subtitle" id="water-hint">Hold the mouse (or press and hold on mobile) over the soil to water the seed.</p>
+    </div>
+
+    <div class="planting-area" id="planting-area" tabindex="0" aria-label="Soil bed. Press and hold to water the seed.">
+      <div class="soil"></div>
+      <div class="plant-stage" id="plant-stage">
+        <div class="plant seed">🌱</div>
+      </div>
+      <div class="watering-progress-track" aria-hidden="true">
+        <div class="watering-progress-fill" id="water-progress"></div>
+      </div>
+    </div>
+
+    <div class="watering-can" id="watering-can" aria-hidden="true">🪣</div>
+  </section>
+
+  <!-- ============ SCENE 4 — SECRET PATH PUZZLE ============ -->
+  <section class="scene" id="scene-3" data-scene="3" aria-label="Unlock the secret path">
+    <div class="garden-bg garden-bg-3"></div>
+    <div class="scene-copy top-copy">
+      <h2 class="title small">Unlock the secret path</h2>
+      <p class="subtitle">Click the glowing flowers in the right order to reveal the way.</p>
+    </div>
+
+    <div class="flower-order-field" id="flower-order-field">
+      <button class="order-flower" data-order="0" style="--x:22%;">🌷</button>
+      <button class="order-flower" data-order="1" style="--x:50%;">🌸</button>
+      <button class="order-flower" data-order="2" style="--x:78%;">🌼</button>
+    </div>
+
+    <div class="stone-path" id="stone-path" aria-hidden="true">
+      <span class="stone"></span><span class="stone"></span><span class="stone"></span>
+      <span class="stone"></span><span class="stone"></span><span class="stone"></span>
+    </div>
+  </section>
+
+  <!-- ============ SCENE 5 — HIDDEN ROSE GARDEN ============ -->
+  <section class="scene" id="scene-4" data-scene="4" aria-label="The hidden rose garden at night">
+    <div class="night-sky">
+      <div class="moon"></div>
+    </div>
+    <div class="rose-field" id="rose-field" aria-hidden="true"></div>
+    <div class="lanterns" aria-hidden="true">
+      <span class="lantern l1">🏮</span>
+      <span class="lantern l2">🏮</span>
+      <span class="lantern l3">🏮</span>
+    </div>
+    <div class="zoom-target" id="zoom-target">
+      <div class="scene-copy center-copy">
+        <h2 class="title small light">You found the hidden garden</h2>
+        <p class="subtitle light">Follow the glow to the center&hellip;</p>
+        <button class="btn btn-glow" id="continue-btn">Continue</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL SCENE — THE ROSE ============ -->
+  <section class="scene" id="scene-5" data-scene="5" aria-label="The final rose">
+    <div class="night-sky night-sky-final">
+      <div class="moon small-moon"></div>
+    </div>
+    <div class="rose-field rose-field-final" aria-hidden="true"></div>
+
+    <div class="final-stage" id="final-stage">
+      <button class="glowing-rose" id="glowing-rose" aria-label="A single glowing rose, click to open it">🌹</button>
+
+      <div class="rose-card" id="rose-card">
+        <p class="question">Would you like to go on a date with me?</p>
+        <div class="rose-card-actions">
+          <button class="btn btn-yes" id="yes-btn">🌸 Yes, I'd love to</button>
+          <button class="btn btn-maybe" id="maybe-btn">🌼 Omg, So excited</button>
+        </div>
+      </div>
+
+      <div class="final-message" id="final-message"></div>
+    </div>
+  </section>
+
+</main>
+
+<button class="music-btn" id="music-btn" aria-label="Play background music" aria-pressed="false">
+  <span class="music-icon" id="music-icon">🎵</span>
+</button>
+
+<a href="https://www.instagram.com/_ishaaaann" target="_blank" rel="noopener noreferrer" class="instagram-btn" aria-label="Visit _ishaaaann on Instagram">
+  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+    <rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/>
+    <circle cx="12" cy="12" r="4.6"/>
+    <circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/>
+  </svg>
+  <span>@_ishaaaann</span>
+</a>
+
+<script src="script.js"></script>
+</body>
+</html>
